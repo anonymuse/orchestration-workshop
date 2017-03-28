@@ -225,7 +225,7 @@ class: in-person
 - If you are doing this on your own:
   <br/>you can use
   [Play-With-Docker](http://www.play-with-docker.com/) and
-  read [these instructions](https://github.com/jpetazzo/orchestration-workshop#using-play-with-docker) for extra
+  read [these instructions](https://github.com/anonymuse/orchestration-workshop#using-play-with-docker) for extra
   details
 
 ???
@@ -332,7 +332,7 @@ class: in-person
 .exercise[
 
 - This is the stuff you're supposed to do!
-- Go to [container.training](http://container.training/) to view these slides
+- #TODO Set up Gitter chat room.
 - Join the chat room on
   [Gitter](http://container.training/chat)
 
@@ -351,12 +351,12 @@ class: in-person
 - If you are doing (or re-doing) this on your own, you can:
 
   - create your own cluster (local or cloud VMs) with Docker Machine
-    ([instructions](https://github.com/jpetazzo/orchestration-workshop/tree/master/prepare-machine))
+    ([instructions](https://github.com/anonymuse/orchestration-workshop/tree/master/prepare-machine))
 
-  - use [Play-With-Docker](http://play-with-docker.com) ([instructions](https://github.com/jpetazzo/orchestration-workshop#using-play-with-docker))
+  - use [Play-With-Docker](http://play-with-docker.com) ([instructions](https://github.com/anonymuse/orchestration-workshop#using-play-with-docker))
 
   - create a bunch of clusters for you and your friends
-    ([instructions](https://github.com/jpetazzo/orchestration-workshop/tree/master/prepare-vms))
+    ([instructions](https://github.com/anonymuse/orchestration-workshop/tree/master/prepare-vms))
 
 ---
 
@@ -440,7 +440,7 @@ class: self-paced
 
   - exposing TCP services requires something like
     [ngrok](https://ngrok.com/)
-    or [supergrok](https://github.com/jpetazzo/orchestration-workshop#using-play-with-docker)
+    or [supergrok](https://github.com/anonymuse/orchestration-workshop#using-play-with-docker)
 
 <!--
 
@@ -523,7 +523,7 @@ You are welcome to use the method that you feel the most comfortable with.
 
 ## Brand new versions!
 
-- Engine 17.03
+- Engine 17.05
 - Compose 1.11
 - Machine 0.9
 
@@ -540,7 +540,7 @@ You are welcome to use the method that you feel the most comfortable with.
 
 ---
 
-## Wait, what, 17.03 ?!?
+## Wait, what, 17.05 ?!?
 
 --
 
@@ -608,16 +608,16 @@ Part 1
 # Our sample application
 
 - Visit the GitHub repository with all the materials of this workshop:
-  <br/>https://github.com/jpetazzo/orchestration-workshop
+  <br/>https://github.com/anonymuse/orchestration-workshop
 
 - The application is in the [dockercoins](
-  https://github.com/jpetazzo/orchestration-workshop/tree/master/dockercoins)
+  https://github.com/anonymuse/orchestration-workshop/tree/master/dockercoins)
   subdirectory
 
 - Let's look at the general layout of the source code:
 
   there is a Compose file [docker-compose.yml](
-  https://github.com/jpetazzo/orchestration-workshop/blob/master/dockercoins/docker-compose.yml) ...
+  https://github.com/anonymuse/orchestration-workshop/blob/master/dockercoins/docker-compose.yml) ...
 
   ... and 4 other services, each in its own directory:
 
@@ -711,7 +711,7 @@ class: pic
 
 - Clone the repository on `node1`:
   ```bash
-  git clone git://github.com/jpetazzo/orchestration-workshop
+  git clone git://github.com/anonymuse/orchestration-workshop
   ```
 
 ]
@@ -1593,7 +1593,7 @@ class: in-person
 This should tell us that we are talking to `node3`.
 
 Note: it can be useful to use a [custom shell prompt](
-https://github.com/jpetazzo/orchestration-workshop/blob/master/prepare-vms/scripts/postprep.rc#L68)
+https://github.com/anonymuse/orchestration-workshop/blob/master/prepare-vms/scripts/postprep.rc#L68)
 reflecting the `DOCKER_HOST` variable.
 
 ---
@@ -2291,7 +2291,7 @@ class: extra-details
   ```
 
 - And in the following slides, we would use our Docker Hub login
-  (e.g. `jpetazzo`) instead of the registry address (i.e. `127.0.0.1:5000`)
+  (e.g. `anonymuse`) instead of the registry address (i.e. `127.0.0.1:5000`)
 
 <!--
 ```meta
@@ -2721,7 +2721,7 @@ What did we change to make it compatible with Swarm mode?
 --
 
 *The images that were [built in June 2015](
-https://hub.docker.com/r/jpetazzo/dockercoins_worker/tags/)
+https://hub.docker.com/r/anonymuse/dockercoins_worker/tags/)
 (when the app was written) can still run today ...
 <br/>... in Swarm mode (distributed across a cluster, with load balancing) ...
 <br/>... without any modification.*
@@ -2759,11 +2759,11 @@ services:
 
   webapp:
     build: src/
-    image: jpetazzo/webapp:${TAG}
+    image: anonymuse/webapp:${TAG}
 ```
 
 Note: Compose tolerates empty (or unset) environment variables, but in this example,
-`TAG` *must* be set, because `jpetazzo/webapp:` is not a valid image name.
+`TAG` *must* be set, because `anonymuse/webapp:` is not a valid image name.
 
 ---
 
@@ -3304,7 +3304,7 @@ TOKEN=$(docker swarm join-token -q manager)
 for N in $(seq 2 5); do
   DOCKER_HOST=tcp://node$N:2375 docker swarm join --token $TOKEN node1:2377
 done
-git clone git://github.com/jpetazzo/orchestration-workshop
+git clone git://github.com/anonymuse/orchestration-workshop
 cd orchestration-workshop/stacks
 docker stack deploy --compose-file registry.yml registry
 docker-compose -f dockercoins.yml build
@@ -4402,7 +4402,7 @@ This will display the unlock key. Copy-paste it somewhere safe.
 ]
 
 Note: if you are doing the workshop on your own, using nodes
-that you [provisioned yourself](https://github.com/jpetazzo/orchestration-workshop/tree/master/prepare-machine) or with [Play-With-Docker](http://play-with-docker.com/), you might have to use a different method to restart the Engine.
+that you [provisioned yourself](https://github.com/anonymuse/orchestration-workshop/tree/master/prepare-machine) or with [Play-With-Docker](http://play-with-docker.com/), you might have to use a different method to restart the Engine.
 
 ---
 
@@ -4617,7 +4617,7 @@ What we will do:
 
 - We could author a custom image bundling this configuration
 
-- We can also pass the [configuration](https://github.com/jpetazzo/orchestration-workshop/blob/master/elk/logstash.conf) on the command line
+- We can also pass the [configuration](https://github.com/anonymuse/orchestration-workshop/blob/master/elk/logstash.conf) on the command line
 
 .exercise[
 
