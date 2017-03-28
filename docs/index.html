@@ -3835,7 +3835,7 @@ However, when you run the second one, only `#` will show up.
 
 - ... update our service to use the new image
 
----
+???
 
 class: extra-details
 
@@ -3857,7 +3857,7 @@ class: extra-details
 
 ]
 
----
+???
 
 ## Making changes
 
@@ -3873,7 +3873,7 @@ class: extra-details
 
 ]
 
----
+???
 
 ## Building and pushing the new image
 
@@ -3894,7 +3894,7 @@ class: extra-details
 
 Note how the build and push were fast (because caching).
 
----
+???
 
 ## Watching the deployment process
 
@@ -3916,7 +3916,7 @@ Note how the build and push were fast (because caching).
 
 - Future versions might have fancy filters to make that less tinkerish
 
----
+???
 
 ## Updating to our new image
 
@@ -3938,7 +3938,7 @@ Note how the build and push were fast (because caching).
 
 By default, SwarmKit does a rolling upgrade, one instance at a time.
 
----
+???
 
 ## Changing the upgrade policy
 
@@ -4014,7 +4014,7 @@ Note: if you updated the roll-out parallelism, *rollback* will not rollback to t
 
 - `docker node ps -a` includes stopped and failed tasks
 
----
+???
 
 ## Getting cluster-wide task information
 
@@ -4031,7 +4031,7 @@ Note: if you updated the roll-out parallelism, *rollback* will not rollback to t
 
 - First, we need to install `swarmctl`
 
----
+???
 
 ## Building `swarmctl`
 
@@ -4054,7 +4054,7 @@ Shameless promo: for more Go and Docker love, check
 Note: in the unfortunate event of SwarmKit *master* branch being broken,
 the build might fail. In that case, just skip the `swarmctl` section.
 
----
+???
 
 ## Using `swarmctl`
 
@@ -4074,7 +4074,7 @@ the build might fail. In that case, just skip the `swarmctl` section.
 
 (Note: with Docker 1.12, that control socket was in `/var/lib/docker/swarm/control.sock`)
 
----
+???
 
 ## `swarmctl` in action
 
@@ -4094,7 +4094,7 @@ the build might fail. In that case, just skip the `swarmctl` section.
 
 ]
 
----
+???
 
 ## Caveat
 
@@ -4109,7 +4109,7 @@ the build might fail. In that case, just skip the `swarmctl` section.
 Error: grpc: failed to unmarshal the received message proto: wrong wireType = 0
 ```
 
----
+???
 
 # Secrets management and encryption at rest
 
@@ -4128,7 +4128,7 @@ Error: grpc: failed to unmarshal the received message proto: wrong wireType = 0
   - data plane is not encrypted by default (for performance reasons),
     <br/>but we saw earlier how to enable that with a single flag
 
----
+???
 
 ## Secret management
 
@@ -4144,7 +4144,7 @@ Error: grpc: failed to unmarshal the received message proto: wrong wireType = 0
 
 - Secrets have a max size of 500 KB
 
----
+???
 
 ## Creating secrets
 
@@ -4163,7 +4163,7 @@ If the secret is in a file, you can simply pass the path to the file.
 
 (The special path `-` indicates to read from the standard input.)
 
----
+???
 
 ## Creating better secrets
 
@@ -4180,7 +4180,7 @@ If the secret is in a file, you can simply pass the path to the file.
 
 Note: in the latter case, we don't even know the secret at this point. But Swarm does.
 
----
+???
 
 ## Using secrets
 
@@ -4200,7 +4200,7 @@ Note: in the latter case, we don't even know the secret at this point. But Swarm
 
 We use a global service to make sure that there will be an instance on the local node.
 
----
+???
 
 ## Accessing secrets
 
@@ -4222,7 +4222,7 @@ We use a global service to make sure that there will be an instance on the local
 
 ]
 
----
+???
 
 ## Rotating secrets
 
@@ -4241,7 +4241,7 @@ We use a global service to make sure that there will be an instance on the local
   docker service create --secret source=secretname,target=filename
   ```
 
----
+???
 
 ## Changing our insecure password
 
@@ -4264,7 +4264,7 @@ We use a global service to make sure that there will be an instance on the local
 
 Wait for the service to be fully updated with e.g. `watch docker service ps dummyservice`.
 
----
+???
 
 ## Checking that our password is now stronger
 
@@ -4284,7 +4284,7 @@ Wait for the service to be fully updated with e.g. `watch docker service ps dumm
 
 ]
 
----
+???
 
 ## Secrets in practice
 
@@ -4306,7 +4306,7 @@ Wait for the service to be fully updated with e.g. `watch docker service ps dumm
 
 - For more details and examples, [check the documentation](https://docs.docker.com/engine/swarm/secrets/)
 
----
+???
 
 ## A reminder about *scope*
 
@@ -4322,7 +4322,7 @@ Wait for the service to be fully updated with e.g. `watch docker service ps dumm
 
 - This can easily be avoided
 
----
+???
 
 ## Fine-grained API access control
 
@@ -4351,7 +4351,7 @@ A few solutions, by increasing order of flexibility:
 [user and permission management]: https://docs.docker.com/datacenter/ucp/2.1/guides/admin/manage-users/
 
 
----
+???
 
 ## Encryption at rest
 
@@ -4371,7 +4371,7 @@ A few solutions, by increasing order of flexibility:
 
   - some vulnerabilities (like path traversal)
 
----
+???
 
 ## Locking a Swarm cluster
 
@@ -4388,7 +4388,7 @@ A few solutions, by increasing order of flexibility:
 
 This will display the unlock key. Copy-paste it somewhere safe.
 
----
+???
 
 ## Locked state
 
@@ -4406,7 +4406,7 @@ This will display the unlock key. Copy-paste it somewhere safe.
 Note: if you are doing the workshop on your own, using nodes
 that you [provisioned yourself](https://github.com/anonymuse/orchestration-workshop/tree/master/prepare-machine) or with [Play-With-Docker](http://play-with-docker.com/), you might have to use a different method to restart the Engine.
 
----
+???
 
 ## Checking that our node is locked
 
@@ -4427,7 +4427,7 @@ that you [provisioned yourself](https://github.com/anonymuse/orchestration-works
 
 (The last command should fail, and it will tell you how to unlock this node.)
 
----
+???
 
 ## Checking the state of the node programmatically
 
@@ -4447,7 +4447,7 @@ that you [provisioned yourself](https://github.com/anonymuse/orchestration-works
 
 ]
 
----
+???
 
 ## Unlocking a node
 
@@ -4469,7 +4469,7 @@ that you [provisioned yourself](https://github.com/anonymuse/orchestration-works
 
 ]
 
----
+???
 
 ## Managing the secret key
 
