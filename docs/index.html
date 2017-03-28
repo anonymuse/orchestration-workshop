@@ -3675,7 +3675,7 @@ class: extra-details, in-person
 
 (Synchronous vs. asynchronous event processing)
 
----
+???
 
 ## Global scheduling → global debugging
 
@@ -3692,7 +3692,7 @@ class: extra-details, in-person
 
 (This becomes practical with the `docker service log` command, available by enabling experimental features.)
 
----
+???
 
 # Securing overlay networks
 
@@ -3708,7 +3708,7 @@ class: extra-details, in-person
 
   (Other drivers/plugins will use different mechanisms)
 
----
+???
 
 ## Creating two networks: encrypted and not
 
@@ -3730,7 +3730,7 @@ class: extra-details, in-person
 
 .warning[Make sure that you don't typo that option; errors are silently ignored!]
 
----
+???
 
 ## Deploying a web server sitting on both networks
 
@@ -3752,7 +3752,7 @@ class: extra-details, in-person
 
 ]
 
----
+???
 
 ## Sniff HTTP traffic
 
@@ -3776,7 +3776,7 @@ Seeing tons of HTTP request? Shutdown your DockerCoins workers:
 docker service update dockercoins_worker --replicas=0
 ```
 
----
+???
 
 ## Check that we are, indeed, sniffing traffic
 
@@ -3797,7 +3797,7 @@ The ngrep container will display one `#` per packet traversing the network inter
 
 When you do the `curl`, you should see the HTTP request in clear text in the output.
 
----
+???
 
 ## Try to sniff traffic across overlay networks
 
@@ -3821,7 +3821,7 @@ When you run the first command, you will see HTTP fragments.
 <br/>
 However, when you run the second one, only `#` will show up.
 
----
+???
 
 # Rolling updates
 
