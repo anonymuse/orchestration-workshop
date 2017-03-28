@@ -2603,7 +2603,9 @@ You might have to wait a bit for the container to be up and running.
 
 Check its status with `docker service ps webui`.
 
----
+Next up, part 2!
+
+???
 
 ## Scaling the application
 
@@ -2624,7 +2626,7 @@ Check its status with `docker service ps webui`.
 
 You should see the performance peaking at 10 hashes/s (like before).
 
----
+???
 
 ## Global scheduling
 
@@ -2639,7 +2641,7 @@ You should see the performance peaking at 10 hashes/s (like before).
 
 - We have to destroy and re-create the `rng` service
 
----
+???
 
 ## Scaling the `rng` service
 
@@ -2662,7 +2664,7 @@ You should see the performance peaking at 10 hashes/s (like before).
 
 Note: if the hash rate goes to zero and doesn't climb back up, try to `rm` and `create` again.
 
----
+???
 
 ## Why do we have to re-create the service to enable global scheduling?
 
@@ -2678,7 +2680,7 @@ Note: if the hash rate goes to zero and doesn't climb back up, try to `rm` and `
 
   - network
 
----
+???
 
 ## How did we make our app "Swarm-ready"?
 
@@ -2702,7 +2704,7 @@ What did we change to make it compatible with Swarm mode?
 
 ]
 
----
+???
 
 ## What did we change in our app since its inception?
 
@@ -2726,7 +2728,7 @@ https://hub.docker.com/r/anonymuse/dockercoins_worker/tags/)
 <br/>... in Swarm mode (distributed across a cluster, with load balancing) ...
 <br/>... without any modification.*
 
----
+???
 
 ## How did we design our app in the first place?
 
@@ -2742,7 +2744,7 @@ https://hub.docker.com/r/anonymuse/dockercoins_worker/tags/)
 
 - Existing apps might require more changes!
 
----
+???
 
 # Scripting image building and pushing
 
@@ -2765,7 +2767,7 @@ services:
 Note: Compose tolerates empty (or unset) environment variables, but in this example,
 `TAG` *must* be set, because `anonymuse/webapp:` is not a valid image name.
 
----
+???
 
 ## Updating the Compose file to specify image tags
 
@@ -2789,7 +2791,7 @@ Note: Compose tolerates empty (or unset) environment variables, but in this exam
 
 You can also directly use the file `docker-compose.yml-images`.
 
----
+???
 
 ## Use the new Compose file
 
@@ -2813,7 +2815,7 @@ You can also directly use the file `docker-compose.yml-images`.
 
 ]
 
----
+???
 
 ## Why the weird variable names?
 
@@ -2832,7 +2834,7 @@ You can also directly use the file `docker-compose.yml-images`.
 
 - The variable names (might) remind you that you have to put the trailing slash and heading colon
 
----
+???
 
 # Integration with Compose
 
@@ -2842,7 +2844,7 @@ You can also directly use the file `docker-compose.yml-images`.
 
   (i.e. get rid of the `for SERVICE in ...; do docker service create ...` part)
 
----
+???
 
 ## Compose file version 3
 
@@ -2862,7 +2864,7 @@ You can also directly use the file `docker-compose.yml-images`.
 
   (JSON payload describing an application; could be generated from a Compose file)
 
----
+???
 
 ## Removing everything
 
@@ -2877,7 +2879,7 @@ You can also directly use the file `docker-compose.yml-images`.
 
 ]
 
----
+???
 
 ## Our first stack
 
@@ -2901,7 +2903,7 @@ services:
       - "5000:5000"
 ```
 
----
+???
 
 ## Checking our stack files
 
@@ -2921,7 +2923,7 @@ services:
 
 ]
 
----
+???
 
 ## Deploying our first stack
 
@@ -2942,7 +2944,7 @@ services:
 
 ]
 
----
+???
 
 ## Inspecting stacks
 
@@ -2962,7 +2964,7 @@ services:
 
 ]
 
----
+???
 
 ## Specifics of stack deployment
 
@@ -2980,7 +2982,7 @@ Our registry is not *exactly* identical to the one deployed with `docker service
 
 - Services and tasks also get an internal label indicating which stack they belong to
 
----
+???
 
 ## Building and pushing stack services
 
@@ -3005,7 +3007,7 @@ Our registry is not *exactly* identical to the one deployed with `docker service
 
 If it doesn't work, make sure that you have Compose 1.10.
 
----
+???
 
 ## Upgrading Compose
 
@@ -3025,7 +3027,7 @@ If it doesn't work, make sure that you have Compose 1.10.
 
 ]
 
----
+???
 
 ## Trying again
 
@@ -3047,7 +3049,7 @@ If it doesn't work, make sure that you have Compose 1.10.
 
 Let's have a look at the `dockercoins.yml` file while this is building and pushing.
 
----
+???
 
 ```yaml
 version: "3"
@@ -3088,7 +3090,7 @@ services:
 
 - ... Which means that the output of these containers won't show up in `docker logs`
 
----
+???
 
 ## Deploying the application
 
@@ -3205,7 +3207,7 @@ services:
 
 ]
 
----
+???
 
 ## Maintaining multiple environments
 
@@ -3227,7 +3229,7 @@ There are many ways to handle variations between environments.
 See [this documentation page](https://docs.docker.com/compose/extends/) for more details about these techniques.
 
 
----
+???
 
 ## Good to know ...
 
@@ -3245,7 +3247,7 @@ See [this documentation page](https://docs.docker.com/compose/extends/) for more
 
   (But you can use `docker-compose config` to "flatten" your configuration)
 
----
+???
 
 ## Summary
 
