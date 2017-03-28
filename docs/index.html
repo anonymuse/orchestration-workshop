@@ -3881,7 +3881,7 @@ class: extra-details
 
 - Build the new image:
   ```bash
-  IMAGE=127.0.0.1:5000/worker:v0.01
+  IMAGE=127.0.0.1:5000/worker:v0.02
   docker build -t $IMAGE ~/orchestration-workshop/dockercoins/worker
   ```
 
@@ -4671,7 +4671,10 @@ or, use the new Docker service logging feature:
 
 ]
 
+---
+
 You should see the heartbeat messages:
+
 .small[
 ```json
 {      "message" => "ok",
