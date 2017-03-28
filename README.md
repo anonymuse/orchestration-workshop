@@ -23,7 +23,7 @@ a sample application.
 The easiest way to follow the workshop is to attend it when it is delivered
 by an instructor. In that case, the instructor will generally give you
 credentials (IP addresses, login, password) to connect to your own cluster
-of virtual machines; and the [slides](http://jpetazzo.github.io/orchestration-workshop)
+of virtual machines; and the [slides](http://anonymuse.github.io/orchestration-workshop)
 assume that you have your own cluster indeed.
 
 If you want to follow the workshop on your own, and want to have your
@@ -121,7 +121,7 @@ check the [prepare-vms](prepare-vms) directory for more information.
 - The slides are in the `docs` directory.
 - To view them locally open `docs/index.html` in your browser. It works
   offline too.
-- To view them online open https://jpetazzo.github.io/orchestration-workshop/
+- To view them online open https://anonymuse.github.io/orchestration-workshop/
   in your browser.
 - When you fork this repo, be sure GitHub Pages is enabled in repo Settings
   for "master branch /docs folder" and you'll have your own website for them.
