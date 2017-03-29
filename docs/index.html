@@ -206,7 +206,7 @@ class: in-person
   [StackOverflow](http://stackoverflow.com/questions/tagged/docker),
   and other outlets
 
-???
+---
 
 ## Hands on, you shall practice
 
@@ -228,7 +228,7 @@ class: in-person
   read [these instructions](https://github.com/anonymuse/orchestration-workshop#using-play-with-docker) for extra
   details
 
-???
+---
 
 <!--
 grep '^# ' index.html | grep -v '<br' | tr '#' '-'
@@ -243,7 +243,7 @@ grep '^# ' index.html | grep -v '<br' | tr '#' '-'
 - Identifying bottlenecks
 - Introducing SwarmKit
 
-???
+---
 
 ## Chapter 2: scaling out our app on Swarm
 
@@ -254,7 +254,7 @@ grep '^# ' index.html | grep -v '<br' | tr '#' '-'
 - Breaking into an overlay network
 - Securing overlay networks
 
-???
+---
 
 ## Chapter 3: operating the Swarm
 
@@ -263,7 +263,7 @@ grep '^# ' index.html | grep -v '<br' | tr '#' '-'
 - [Centralized logging](#logging)
 - Metrics collection
 
-???
+---
 
 ## Chapter 4: deeper in Swarm
 
@@ -2270,7 +2270,7 @@ We just have to adapt this to our application, which has 4 services!
 
 ]
 
-???
+---
 
 class: extra-details
 
@@ -2298,7 +2298,7 @@ class: extra-details
 ```
 -->
 
-???
+---
 
 class: extra-details
 
@@ -2317,7 +2317,7 @@ class: extra-details
 
 *This is out of the scope of this workshop!*
 
-???
+---
 
 ## Using open source registry
 
@@ -2427,7 +2427,7 @@ The curl command should now output:
 
 ]
 
-???
+---
 
 # Overlay networks
 
@@ -2450,7 +2450,7 @@ The curl command should now output:
 
 ]
 
-???
+---
 
 ## Can you spot the differences?
 
@@ -2467,7 +2467,7 @@ Can you see how?
 
 - They are using the overlay driver.
 
-???
+---
 
 ## Caveats
 
@@ -2522,7 +2522,7 @@ It alters the code path for `docker run`, so it is allowed only under strict cir
 
 ]
 
-???
+---
 ---
 
 ## Wait for our application to be up
@@ -2604,7 +2604,7 @@ Check its status with `docker service ps webui`.
 
 Next up, part 2!
 
-???
+---
 
 ## Scaling the application
 
@@ -2625,7 +2625,7 @@ Next up, part 2!
 
 You should see the performance peaking at 10 hashes/s (like before).
 
-???
+---
 
 ## Global scheduling
 
@@ -2640,7 +2640,7 @@ You should see the performance peaking at 10 hashes/s (like before).
 
 - We have to destroy and re-create the `rng` service
 
-???
+---
 
 ## Scaling the `rng` service
 
@@ -2663,7 +2663,7 @@ You should see the performance peaking at 10 hashes/s (like before).
 
 Note: if the hash rate goes to zero and doesn't climb back up, try to `rm` and `create` again.
 
-???
+---
 
 ## Why do we have to re-create the service to enable global scheduling?
 
@@ -2679,7 +2679,7 @@ Note: if the hash rate goes to zero and doesn't climb back up, try to `rm` and `
 
   - network
 
-???
+---
 
 ## How did we make our app "Swarm-ready"?
 
@@ -2703,7 +2703,7 @@ What did we change to make it compatible with Swarm mode?
 
 ]
 
-???
+---
 
 ## What did we change in our app since its inception?
 
@@ -2727,7 +2727,7 @@ https://hub.docker.com/r/anonymuse/dockercoins_worker/tags/)
 <br/>... in Swarm mode (distributed across a cluster, with load balancing) ...
 <br/>... without any modification.*
 
-???
+---
 
 ## How did we design our app in the first place?
 
@@ -2743,7 +2743,7 @@ https://hub.docker.com/r/anonymuse/dockercoins_worker/tags/)
 
 - Existing apps might require more changes!
 
-???
+---
 
 # Scripting image building and pushing
 
@@ -2766,7 +2766,7 @@ services:
 Note: Compose tolerates empty (or unset) environment variables, but in this example,
 `TAG` *must* be set, because `anonymuse/webapp:` is not a valid image name.
 
-???
+---
 
 ## Updating the Compose file to specify image tags
 
@@ -2790,7 +2790,7 @@ Note: Compose tolerates empty (or unset) environment variables, but in this exam
 
 You can also directly use the file `docker-compose.yml-images`.
 
-???
+---
 
 ## Use the new Compose file
 
@@ -2814,7 +2814,7 @@ You can also directly use the file `docker-compose.yml-images`.
 
 ]
 
-???
+---
 
 ## Why the weird variable names?
 
@@ -2833,7 +2833,7 @@ You can also directly use the file `docker-compose.yml-images`.
 
 - The variable names (might) remind you that you have to put the trailing slash and heading colon
 
-???
+---
 
 # Integration with Compose
 
@@ -2843,7 +2843,7 @@ You can also directly use the file `docker-compose.yml-images`.
 
   (i.e. get rid of the `for SERVICE in ...; do docker service create ...` part)
 
-???
+---
 
 ## Compose file version 3
 
@@ -2863,7 +2863,7 @@ You can also directly use the file `docker-compose.yml-images`.
 
   (JSON payload describing an application; could be generated from a Compose file)
 
-???
+---
 
 ## Removing everything
 
@@ -2878,7 +2878,7 @@ You can also directly use the file `docker-compose.yml-images`.
 
 ]
 
-???
+---
 
 ## Our first stack
 
@@ -2902,7 +2902,7 @@ services:
       - "5000:5000"
 ```
 
-???
+---
 
 ## Checking our stack files
 
@@ -2922,7 +2922,7 @@ services:
 
 ]
 
-???
+---
 
 ## Deploying our first stack
 
@@ -2943,7 +2943,7 @@ services:
 
 ]
 
-???
+---
 
 ## Inspecting stacks
 
@@ -2963,7 +2963,7 @@ services:
 
 ]
 
-???
+---
 
 ## Specifics of stack deployment
 
@@ -2981,7 +2981,7 @@ Our registry is not *exactly* identical to the one deployed with `docker service
 
 - Services and tasks also get an internal label indicating which stack they belong to
 
-???
+---
 
 ## Building and pushing stack services
 
@@ -3006,7 +3006,7 @@ Our registry is not *exactly* identical to the one deployed with `docker service
 
 If it doesn't work, make sure that you have Compose 1.10.
 
-???
+---
 
 ## Upgrading Compose
 
@@ -3026,7 +3026,7 @@ If it doesn't work, make sure that you have Compose 1.10.
 
 ]
 
-???
+---
 
 ## Trying again
 
@@ -3048,7 +3048,7 @@ If it doesn't work, make sure that you have Compose 1.10.
 
 Let's have a look at the `dockercoins.yml` file while this is building and pushing.
 
-???
+---
 
 ```yaml
 version: "3"
@@ -3071,7 +3071,7 @@ services:
       replicas: 10
 ```
 
-???
+---
 
 ## What's this `logging` section?
 
@@ -3089,7 +3089,7 @@ services:
 
 - ... Which means that the output of these containers won't show up in `docker logs`
 
-???
+---
 
 ## Deploying the application
 
@@ -3106,7 +3106,7 @@ services:
 
 We can now connect to any of our nodes on port 8000, and we will see the familiar hashing speed graph.
 
-???
+---
 
 ## Deploying the logging stack
 
@@ -3123,7 +3123,7 @@ We can now connect to any of our nodes on port 8000, and we will see the familia
 
 ]
 
-???
+---
 
 ## Accessing the logging stack
 
@@ -3148,7 +3148,7 @@ We can now connect to any of our nodes on port 8000, and we will see the familia
 
 ]
 
-???
+---
 
 .exercise[
 
@@ -3163,7 +3163,7 @@ We can now connect to any of our nodes on port 8000, and we will see the familia
 
 Look at `prometheus.yml` while it's building and pushing.
 
-???
+---
 
 ```yaml
 version: "3"
@@ -3190,7 +3190,7 @@ services:
       - "/var/lib/docker:/var/lib/docker"
 ```
 
-???
+---
 
 ## Accessing our new metrics stack
 
@@ -3206,7 +3206,7 @@ services:
 
 ]
 
-???
+---
 
 ## Maintaining multiple environments
 
@@ -3228,7 +3228,7 @@ There are many ways to handle variations between environments.
 See [this documentation page](https://docs.docker.com/compose/extends/) for more details about these techniques.
 
 
-???
+---
 
 ## Good to know ...
 
@@ -3246,7 +3246,7 @@ See [this documentation page](https://docs.docker.com/compose/extends/) for more
 
   (But you can use `docker-compose config` to "flatten" your configuration)
 
-???
+---
 
 ## Summary
 
@@ -3674,7 +3674,7 @@ class: extra-details, in-person
 
 (Synchronous vs. asynchronous event processing)
 
-???
+---
 
 ## Global scheduling → global debugging
 
@@ -3691,7 +3691,7 @@ class: extra-details, in-person
 
 (This becomes practical with the `docker service log` command, available by enabling experimental features.)
 
-???
+---
 
 # Securing overlay networks
 
@@ -3707,7 +3707,7 @@ class: extra-details, in-person
 
   (Other drivers/plugins will use different mechanisms)
 
-???
+---
 
 ## Creating two networks: encrypted and not
 
@@ -3729,7 +3729,7 @@ class: extra-details, in-person
 
 .warning[Make sure that you don't typo that option; errors are silently ignored!]
 
-???
+---
 
 ## Deploying a web server sitting on both networks
 
@@ -3751,7 +3751,7 @@ class: extra-details, in-person
 
 ]
 
-???
+---
 
 ## Sniff HTTP traffic
 
@@ -3775,7 +3775,7 @@ Seeing tons of HTTP request? Shutdown your DockerCoins workers:
 docker service update dockercoins_worker --replicas=0
 ```
 
-???
+---
 
 ## Check that we are, indeed, sniffing traffic
 
@@ -3796,7 +3796,7 @@ The ngrep container will display one `#` per packet traversing the network inter
 
 When you do the `curl`, you should see the HTTP request in clear text in the output.
 
-???
+---
 
 ## Try to sniff traffic across overlay networks
 
@@ -3820,7 +3820,7 @@ When you run the first command, you will see HTTP fragments.
 <br/>
 However, when you run the second one, only `#` will show up.
 
-???
+---
 
 # Rolling updates
 
@@ -3834,7 +3834,7 @@ However, when you run the second one, only `#` will show up.
 
 - ... update our service to use the new image
 
-???
+---
 
 class: extra-details
 
@@ -3856,7 +3856,7 @@ class: extra-details
 
 ]
 
-???
+---
 
 ## Making changes
 
@@ -3872,7 +3872,7 @@ class: extra-details
 
 ]
 
-???
+---
 
 ## Building and pushing the new image
 
@@ -3893,7 +3893,7 @@ class: extra-details
 
 Note how the build and push were fast (because caching).
 
-???
+---
 
 ## Watching the deployment process
 
@@ -3915,7 +3915,7 @@ Note how the build and push were fast (because caching).
 
 - Future versions might have fancy filters to make that less tinkerish
 
-???
+---
 
 ## Updating to our new image
 
@@ -3937,7 +3937,7 @@ Note how the build and push were fast (because caching).
 
 By default, SwarmKit does a rolling upgrade, one instance at a time.
 
-???
+---
 
 ## Changing the upgrade policy
 
@@ -4013,7 +4013,7 @@ Note: if you updated the roll-out parallelism, *rollback* will not rollback to t
 
 - `docker node ps -a` includes stopped and failed tasks
 
-???
+---
 
 ## Getting cluster-wide task information
 
@@ -4030,7 +4030,7 @@ Note: if you updated the roll-out parallelism, *rollback* will not rollback to t
 
 - First, we need to install `swarmctl`
 
-???
+---
 
 ## Building `swarmctl`
 
@@ -4053,7 +4053,7 @@ Shameless promo: for more Go and Docker love, check
 Note: in the unfortunate event of SwarmKit *master* branch being broken,
 the build might fail. In that case, just skip the `swarmctl` section.
 
-???
+---
 
 ## Using `swarmctl`
 
@@ -4073,7 +4073,7 @@ the build might fail. In that case, just skip the `swarmctl` section.
 
 (Note: with Docker 1.12, that control socket was in `/var/lib/docker/swarm/control.sock`)
 
-???
+---
 
 ## `swarmctl` in action
 
@@ -4093,7 +4093,7 @@ the build might fail. In that case, just skip the `swarmctl` section.
 
 ]
 
-???
+---
 
 ## Caveat
 
@@ -4108,7 +4108,7 @@ the build might fail. In that case, just skip the `swarmctl` section.
 Error: grpc: failed to unmarshal the received message proto: wrong wireType = 0
 ```
 
-???
+---
 
 # Secrets management and encryption at rest
 
@@ -4127,7 +4127,7 @@ Error: grpc: failed to unmarshal the received message proto: wrong wireType = 0
   - data plane is not encrypted by default (for performance reasons),
     <br/>but we saw earlier how to enable that with a single flag
 
-???
+---
 
 ## Secret management
 
@@ -4143,7 +4143,7 @@ Error: grpc: failed to unmarshal the received message proto: wrong wireType = 0
 
 - Secrets have a max size of 500 KB
 
-???
+---
 
 ## Creating secrets
 
@@ -4162,7 +4162,7 @@ If the secret is in a file, you can simply pass the path to the file.
 
 (The special path `-` indicates to read from the standard input.)
 
-???
+---
 
 ## Creating better secrets
 
@@ -4179,7 +4179,7 @@ If the secret is in a file, you can simply pass the path to the file.
 
 Note: in the latter case, we don't even know the secret at this point. But Swarm does.
 
-???
+---
 
 ## Using secrets
 
@@ -4199,7 +4199,7 @@ Note: in the latter case, we don't even know the secret at this point. But Swarm
 
 We use a global service to make sure that there will be an instance on the local node.
 
-???
+---
 
 ## Accessing secrets
 
@@ -4221,7 +4221,7 @@ We use a global service to make sure that there will be an instance on the local
 
 ]
 
-???
+---
 
 ## Rotating secrets
 
@@ -4240,7 +4240,7 @@ We use a global service to make sure that there will be an instance on the local
   docker service create --secret source=secretname,target=filename
   ```
 
-???
+---
 
 ## Changing our insecure password
 
@@ -4263,7 +4263,7 @@ We use a global service to make sure that there will be an instance on the local
 
 Wait for the service to be fully updated with e.g. `watch docker service ps dummyservice`.
 
-???
+---
 
 ## Checking that our password is now stronger
 
@@ -4283,7 +4283,7 @@ Wait for the service to be fully updated with e.g. `watch docker service ps dumm
 
 ]
 
-???
+---
 
 ## Secrets in practice
 
@@ -4305,7 +4305,7 @@ Wait for the service to be fully updated with e.g. `watch docker service ps dumm
 
 - For more details and examples, [check the documentation](https://docs.docker.com/engine/swarm/secrets/)
 
-???
+---
 
 ## A reminder about *scope*
 
@@ -4321,7 +4321,7 @@ Wait for the service to be fully updated with e.g. `watch docker service ps dumm
 
 - This can easily be avoided
 
-???
+---
 
 ## Fine-grained API access control
 
@@ -4350,7 +4350,7 @@ A few solutions, by increasing order of flexibility:
 [user and permission management]: https://docs.docker.com/datacenter/ucp/2.1/guides/admin/manage-users/
 
 
-???
+---
 
 ## Encryption at rest
 
@@ -4370,7 +4370,7 @@ A few solutions, by increasing order of flexibility:
 
   - some vulnerabilities (like path traversal)
 
-???
+---
 
 ## Locking a Swarm cluster
 
@@ -4387,7 +4387,7 @@ A few solutions, by increasing order of flexibility:
 
 This will display the unlock key. Copy-paste it somewhere safe.
 
-???
+---
 
 ## Locked state
 
@@ -4405,7 +4405,7 @@ This will display the unlock key. Copy-paste it somewhere safe.
 Note: if you are doing the workshop on your own, using nodes
 that you [provisioned yourself](https://github.com/anonymuse/orchestration-workshop/tree/master/prepare-machine) or with [Play-With-Docker](http://play-with-docker.com/), you might have to use a different method to restart the Engine.
 
-???
+---
 
 ## Checking that our node is locked
 
@@ -4426,7 +4426,7 @@ that you [provisioned yourself](https://github.com/anonymuse/orchestration-works
 
 (The last command should fail, and it will tell you how to unlock this node.)
 
-???
+---
 
 ## Checking the state of the node programmatically
 
@@ -4446,7 +4446,7 @@ that you [provisioned yourself](https://github.com/anonymuse/orchestration-works
 
 ]
 
-???
+---
 
 ## Unlocking a node
 
@@ -4468,7 +4468,7 @@ that you [provisioned yourself](https://github.com/anonymuse/orchestration-works
 
 ]
 
-???
+---
 
 ## Managing the secret key
 
@@ -5482,7 +5482,7 @@ this breaks a few things.]
 
 Note: the InfluxDB query language *looks like* SQL but it's not.
 
-???
+---
 
 ## Setting a retention policy
 
