@@ -352,7 +352,8 @@ This is important! This workshop is huge, so we want you to be able to choose yo
 - Runing a Metrics Collection Infrastructure: 185
 - Runing (ANOTHER!) Metrics Collection Infrastructure: 230
 - Couchbase on Swarm: 254
-- Postgresql on Swarm: 275
+- Postgresql on Swarm: 277
+- Dealing with stateful services: 278
 
 ---
 
@@ -6528,6 +6529,17 @@ ckbdaqqawlnl        couchbase_couchbase-worker.4   anonymuse/couchbase:latest   
 Fun! Now, I wouldn't recommend rebalancing the servers at this point, but I would encourage to you test failover, scaling the service down, and seeing how the swarm generally handles nodes, containers, and tasks. When managing a stateful service, we can also take advantage of using [labels](https://docs.docker.com/compose/compose-file/#labels-1) and constraints such as [placement](https://docs.docker.com/compose/compose-file/#placement) or [mode](https://docs.docker.com/compose/compose-file/#mode).
 
 ---
+
+---
+
+# Postgresql on Swarm
+
+For our next example, we're going to show you how to take some of our core
+concepts and deploy a Postgresql cluster into a swarm.
+
+For this portion you'll need to pull up the [readme
+file](https://github.com/anonymuse/orchestration-workshop/blob/master/postgresql-swarm/README)
+and follow along. We'll see you back here when you're finished!
 
 # Dealing with stateful services
 
