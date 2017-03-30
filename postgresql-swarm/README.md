@@ -120,7 +120,7 @@ $ docker container ps |grep master
 And then using that output to run a remote Postgresql command.
 
 ```
-docker exec -it master.1.x769um05kllwbx742ix3yrna7 /psql -U postgres -c 'table pg_stat_replication' postgres
+docker exec -it master.1.x769um05kllwbx742ix3yrna7 psql -U postgres -c 'table pg_stat_replication' postgres
 ```
 
 You should see a row for each replica along with its replication status.
