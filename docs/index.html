@@ -6352,9 +6352,9 @@ down an instructor if you're having trouble finding it.
 
 Now that we've spun up our cluster, let's look at what it took to create it.
 
-First, we created an overlay network called `couchbase` that we deployed our service to.
+Open up the `couchbase-swarm/docker-compose.yml` file.
 
-.exercise[
+First, we created an overlay network called `couchbase` that we deployed our service to.
 
 ```bash
 networks:
@@ -6362,15 +6362,11 @@ networks:
     driver: overlay
 ```
 
-]
-
 ---
 
 # Couchbase on Swarm
 
 Then we created a `couchbase-master` service that leverages a public Couchbase image at `anonymuse/couchbase` to spin up our master container.
-
-.exercise[
 
 ```bash
 services:
@@ -6386,15 +6382,11 @@ services:
       - couchbase
 ```
 
-]
-
 ---
 
 # Couchbase on Swarm
 
 Once that service has started up, swarm knows to spin up the dependent service `couchbase-worker`.
-
-.exercise[
 
 ```bash
 couchbase-worker:
@@ -6410,8 +6402,6 @@ couchbase-worker:
     networks:
       - couchbase
 ```
-
-]
 
 ---
 
