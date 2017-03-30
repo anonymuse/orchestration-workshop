@@ -4,7 +4,7 @@ This has been adapted from [this post](http://info.crunchydata.com/blog/easy-pos
 
 This example is going to set you up to run a PostgreSQL service on Docker Swarm.
 
-First, let's run through the steps to create this service manually. Make sure you have a running Docker Swarm as described in previous sections.
+First, let's run through the steps to create this service manually. Make sure you have a running Docker Swarm as described in previous sections. You'll need to run all of these commands on your Swarm master 'node1', or substitute your node name in the following commands where necessary.
 
 Next, we'll create an overlay network to be shared by a set of database containers.
 
