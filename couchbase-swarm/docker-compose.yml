@@ -1,0 +1,28 @@
+version: "3"
+services:
+  couchbase-master:
+    image: anonymuse/couchbase
+    deploy:
+      replicas: 1
+    ports:
+      - 8091:8091
+    environment:
+      TPYE: "MASTER"
+    networks:
+      - couchbase
+  couchbase-worker:
+    image: anonymuse/couchbase
+    deploy:
+      replicas: 1
+    environment:
+      TYPE: "WORKER"
+      COUCHBASE_MASTER: "couchbase_couchbase-master"
+      AUTO_REBALANCE: "false"
+    depends_on:
+      - couchbase-master
+    networks:
+      - couchbase
+
+networks:
+  couchbase:
+    driver: overlay
