@@ -1,17 +1,6 @@
-#!/bin/bash 
-
-# Copyright 2016 Crunchy Data Solutions, Inc.
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-# http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
+#!/bin/bash
+# This has been adpated from:
+# http://info.crunchydata.com/blog/easy-postgresql-cluster-recipe-using-docker-1.12
 
 echo "starting master container..."
 
@@ -21,10 +10,18 @@ $DIR/cleanup.sh
 
 MASTER_SERVICE_NAME=master
 
+# Set the required labels
+docker node update node1 --label-add type=master
+
+# Create the network
+docker network create --driver overlay postgres
+
+
+# Create the Master service
 docker service create \
  --mount type=volume,src=$MASTER_SERVICE_NAME-volume,dst=/pgdata,volume-driver=local \
  --name $MASTER_SERVICE_NAME \
- --network crunchynet \
+ --network postgres \
  --constraint 'node.labels.type == master' \
  --env PGHOST=/tmp \
  --env PG_USER=testuser \
@@ -45,10 +42,11 @@ SERVICE_NAME=replica
 VOLUME_NAME=$SERVICE_NAME-volume
 
 
+# Create the Replica Service
 docker service create \
  --mount type=volume,src=$VOLUME_NAME,dst=/pgdata,volume-driver=local \
  --name $SERVICE_NAME \
- --network crunchynet \
+ --network postgres \
  --constraint 'node.labels.type != master' \
  --env PGHOST=/tmp \
  --env PG_USER=testuser \
