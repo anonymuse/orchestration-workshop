@@ -90,3 +90,93 @@ services:
     networks:
       - couchbase
 ```
+
+Once that service has started up, swarm knows to spin up the dependent service `couchbase-worker`.
+
+```
+couchbase-worker:
+    image: anonymuse/couchbase
+    deploy:
+      replicas: 1
+    environment:
+      TYPE: "WORKER"
+      COUCHBASE_MASTER: "couchbase_couchbase-master"
+      AUTO_REBALANCE: "false"
+    depends_on:
+      - couchbase-master
+    networks:
+      - couchbase
+```
+
+Paying special attention here to the 'depends_on' clause, this is one of the many tools that we can rely on to deply stateful services. We're also setting `AUTO_REBALANCE` to false in our configuration code, so we can manually promote the worker node into the swarm.
+
+Let's do that now.
+
+Click on 'Server Nodes' in the GUI. Once you're there, click on the 'Pending Rebalance' tab to see the available instances of Couchbase. Click 'Rebalance' to add the machine. This will take a few minutes as data is synchronized.
+
+Neat enough, but how can we use the stack to scale the service to more servers? Right now we have 1 worker and 1 master, each running on one of our nodes. Let's scale up by two instances of the worker, and add them to the cluster as well. Make sure that the rebalancing is complete before you move on.
+
+Once that's finished, you should see two healthy servers under "Active Servers"
+
+Let's scale the worker service up a bit.
+
+```
+docker service scale couchbase_couchbase-worker=2
+```
+
+Once we issue that command, we'll see that another instance of the Couchbase worker service has been added to one of our swarm nodes. Let's take a look.
+
+```
+$ docker stack ps couchbase
+ID                  NAME                           IMAGE                        NODE
+    DESIRED STATE       CURRENT STATE                ERROR               PORTS
+80q0wum4cbac        couchbase_couchbase-worker.1   anonymuse/couchbase:latest   node2 Running             Running 18 minutes ago
+tkzc2jhgcmgd        couchbase_couchbase-master.1   anonymuse/couchbase:latest   node1 Running             Running 18 minutes ago
+1w3fxvd2hhhq        couchbase_couchbase-worker.2   anonymuse/couchbase:latest   node4 Running             Running about a minute ago
+```
+
+And, let's also check the GUI and the 'Pending Rebalance' screen. Yep, another server is ready to go. Click 'Rebalance' and add the new server.
+
+It's going to take a little longer to synchronize that data, so take a look at how stacks are created on the [docker stack services documentation](https://docs.docker.com/engine/swarm/stack-deploy/#create-the-example-application).
+
+We can look at specific services as well:
+
+```
+$ docker service ps couchbase_couchbase-worker
+ID                  NAME                           IMAGE                        NODE
+    DESIRED STATE       CURRENT STATE            ERROR               PORTS
+80q0wum4cbac        couchbase_couchbase-worker.1   anonymuse/couchbase:latest   node2 Running             Running 22 minutes ago
+1w3fxvd2hhhq        couchbase_couchbase-worker.2   anonymuse/couchbase:latest   node4 Running             Running 5 minutes ago
+```
+
+If you want to see detailed configuration about your service, you can `inspect` it.
+
+```
+$ docker service inspect couchbase_couchbase-worker
+```
+
+Hopefully by now your rebalancing will be finished. Since we're running this in a development environment, we're not going to be able to scale up much further on our Mac or on PWD, but let's add two more nodes just to see how they're distributed.
+
+```
+docker service scale couchbase_couchbase-worker scale=4
+```
+
+Once that's complete, you should see the two additional worker nodes distributed evenly across our 5 machine cluster.
+
+```
+$ docker stack ps couchbase
+ID                  NAME                           IMAGE                        NODE
+    DESIRED STATE       CURRENT STATE            ERROR               PORTS
+80q0wum4cbac        couchbase_couchbase-worker.1   anonymuse/couchbase:latest   node2
+    Running             Running 27 minutes ago
+tkzc2jhgcmgd        couchbase_couchbase-master.1   anonymuse/couchbase:latest   node1
+    Running             Running 27 minutes ago
+1w3fxvd2hhhq        couchbase_couchbase-worker.2   anonymuse/couchbase:latest   node4
+    Running             Running 10 minutes ago
+zo74spozzke0        couchbase_couchbase-worker.3   anonymuse/couchbase:latest   node3
+    Running             Running 7 seconds ago
+ckbdaqqawlnl        couchbase_couchbase-worker.4   anonymuse/couchbase:latest   node5
+    Running             Running 24 seconds ago
+```
+
+Fun! Now, I wouldn't recommend rebalancing the servers at this point, but I would encourage to you test failover, scaling the service down, and seeing how the swarm generally handles nodes, containers, and tasks. When managing a stateful service, we can also take advantage of using [labels](https://docs.docker.com/compose/compose-file/#labels-1) and constraints such as [placement](https://docs.docker.com/compose/compose-file/#placement) or [mode](https://docs.docker.com/compose/compose-file/#mode).
