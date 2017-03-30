@@ -339,6 +339,24 @@ class: in-person
 
 ---
 
+## Table of Contents
+
+This is important! This workshop is huge, so we want you to be able to choose your own adventure today. Here's a rough outline of the different sections. You're welcome to go straight through, or skip to the section that you're interested in. We recommend that you start with the setup on Play With Docker, unless you are familiar with setting up a local Docker Machine cluster on your laptop or chosen cloud provider.
+
+- Setting up Play with Docker: Slide 5
+- Sample Application and core concepts: 19
+- Scaling out: 45
+- Our app on Swarm: 110
+- Troubleshooting our Sample App: 135
+- Running a Centralized Logging Infrastructure: 165
+- Runing a Metrics Collection Infrastructure: 185
+- Runing (ANOTHER!) Metrics Collection Infrastructure: 230
+- Couchbase on Swarm: 254
+- Postgresql on Swarm: 275
+
+---
+
+
 class: in-person
 
 # VM environment
@@ -6396,6 +6414,8 @@ Neat enough, but how can we use the stack to scale the service to more servers? 
 
 ---
 
+# Couchbase on Swarm
+
 Once that's finished, you should see two healthy servers under "Active Servers"
 
 Let's scale the worker service up a bit.
@@ -6409,6 +6429,8 @@ docker service scale couchbase_couchbase-worker=2
 ]
 
 ---
+
+# Couchbase on Swarm
 
 Once we issue that command, we'll see that another instance of the Couchbase worker service has been added to one of our swarm nodes. Let's take a look.
 
@@ -6425,6 +6447,8 @@ tkzc2jhgcmgd        couchbase_couchbase-master.1   anonymuse/couchbase:latest   
 ]
 
 ---
+
+# Couchbase on Swarm
 
 And, let's also check the GUI and the 'Pending Rebalance' screen. Yep, another server is ready to go. Click 'Rebalance' and add the new server.
 
@@ -6446,6 +6470,8 @@ ID                  NAME                           IMAGE                        
 
 ---
 
+# Couchbase on Swarm
+
 If you want to see detailed configuration about your service, you can `inspect` it.
 
 .exercise[
@@ -6458,6 +6484,8 @@ $ docker service inspect couchbase_couchbase-worker
 
 ---
 
+# Couchbase on Swarm
+
 Hopefully by now your rebalancing will be finished. Since we're running this in a development environment, we're not going to be able to scale up much further on our Mac or on PWD, but let's add two more nodes just to see how they're distributed.
 
 .exercise[
@@ -6469,6 +6497,8 @@ docker service scale couchbase_couchbase-worker scale=4
 ]
 
 ---
+
+# Couchbase on Swarm
 
 Once that's complete, you should see the two additional worker nodes distributed evenly across our 5 machine cluster.
 
@@ -6493,23 +6523,11 @@ ckbdaqqawlnl        couchbase_couchbase-worker.4   anonymuse/couchbase:latest   
 
 ---
 
+# Couchbase on Swarm
+
 Fun! Now, I wouldn't recommend rebalancing the servers at this point, but I would encourage to you test failover, scaling the service down, and seeing how the swarm generally handles nodes, containers, and tasks. When managing a stateful service, we can also take advantage of using [labels](https://docs.docker.com/compose/compose-file/#labels-1) and constraints such as [placement](https://docs.docker.com/compose/compose-file/#placement) or [mode](https://docs.docker.com/compose/compose-file/#mode).
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+---
 
 # Dealing with stateful services
 
