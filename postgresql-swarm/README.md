@@ -1,7 +1,8 @@
 # Postgresql on Swarm
 
-This example is going to set you up to run a PostgreSQL service on Docker Swarm.
+This has been adapted from [this post](http://info.crunchydata.com/blog/easy-postgresql-cluster-recipe-using-docker-1.12), with many thanks!
 
+This example is going to set you up to run a PostgreSQL service on Docker Swarm.
 
 First, let's run through the steps to create this service manually. Make sure you have a running Docker Swarm as described in previous sections.
 
@@ -64,17 +65,25 @@ crunchydata/crunchy-postgres:centos7-9.5-1.2.5
 
 Note the following lines from the examples above when creating the Docker services:
 
+```
 --constraint 'node.labels.type == master'
+```
 
 This line supplies a constraint to the Swarm manager when choosing what Swarm node to run the container, in this case, we want the master database container to always run on a host with the master label type, in our case this is the worker1 host.
 
+```
 --network postgres
+```
 
+```
 --mount type=volume,src=$VOLUME_NAME,dst=/pgdata,volume-driver=local
+```
 
 This line specifies a dynamically created Docker volume be created using the local driver and which will be mounted to the /pgdata directory within the PostgreSQL container. The /pgdata volume is where PostgreSQL will store it’s data files.
 
+```
 --env PG_MASTER_HOST=$MASTER_SERVICE_NAME
+```
 
 This line specifies the master PostgreSQL database host and in this case is the Docker service name used for the master database service. This name is resolved by means of the overlay network we created, crunchynet.
 
