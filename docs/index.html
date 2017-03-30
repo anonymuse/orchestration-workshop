@@ -2429,7 +2429,7 @@ The curl command should now output:
 
 ]
 
-???
+---
 
 # Overlay networks
 
@@ -2452,7 +2452,7 @@ The curl command should now output:
 
 ]
 
-???
+---
 
 ## Can you spot the differences?
 
@@ -5154,7 +5154,7 @@ for BIN in snapd snapctl; do ln -s /opt/snap/bin/$BIN /usr/local/bin/$BIN; done
       config: # there is no configuration
       publish: # after collecting, publish
         -
-            plugin_name: "file" # use the file publisher
+            plugin_name: "mock-file" # use the file publisher
             config:
                 file: "/tmp/snap-psutil-file.log" # write to this file
 ```
