@@ -4994,7 +4994,7 @@ We will use three open source Go projects for our first metrics pipeline:
 
 - Doesn’t store metrics
 
-- Works as a daemon (snapd) controlled by a CLI (snapctl)
+- Works as a daemon (snapteld) controlled by a CLI (snaptel)
 
 - Offloads collecting, processing, and publishing to plugins
 
@@ -5059,14 +5059,15 @@ We will use three open source Go projects for our first metrics pipeline:
 docker service create --restart-condition=none --mode global \
        --mount type=bind,source=/usr/local/bin,target=/usr/local/bin \
        --mount type=bind,source=/opt,target=/opt centos sh -c '
-SNAPVER=v0.16.1-beta
+SNAPVER=1.2.0
 RELEASEURL=https://github.com/intelsdi-x/snap/releases/download/$SNAPVER
 curl -sSL $RELEASEURL/snap-$SNAPVER-linux-amd64.tar.gz |
      tar -C /opt -zxf-
-curl -sSL $RELEASEURL/snap-plugins-$SNAPVER-linux-amd64.tar.gz |
-     tar -C /opt -zxf-
-ln -s snap-$SNAPVER /opt/snap
-for BIN in snapd snapctl; do ln -s /opt/snap/bin/$BIN /usr/local/bin/$BIN; done
+mkdir -p /opt/snap/plugin/
+wget -O /opt/snap/plugin/snap-plugin-collector-psutil_linux_x86_64 https://github.com/intelsdi-x/snap-plugin-collector-psutil/releases/download/9/snap-plugin-collector-psutil_linux_x86_64
+wget -O /opt/snap/plugin/snap-plugin-publisher-file_linux_x86_64 https://github.com/intelsdi-x/snap-plugin-publisher-file/releases/download/2/snap-plugin-publisher-file_linux_x86_64
+wget -O /opt/snap/plugin/snap-plugin-processor-statistics_linux_x86_64 https://github.com/intelsdi-x/snap-plugin-processor-statistics/releases/download/3/snap-plugin-processor-statistics_linux_x86_64  
+for BIN in snapteld snaptel; do ln -s /opt/$BIN /usr/local/bin/$BIN; done
 ' # If you copy-paste that block, do not forget that final quote ☺
 ```
 
@@ -5074,29 +5075,29 @@ for BIN in snapd snapctl; do ln -s /opt/snap/bin/$BIN /usr/local/bin/$BIN; done
 
 ---
 
-## First contact with `snapd`
+## First contact with `snapteld`
 
-- The core of Snap is `snapd`, the Snap daemon
+- The core of Snap is `snapteld`, the Snap daemon
 
 - Application made up of a REST API, control module, and scheduler module
 
 .exercise[
 
-- Start `snapd` with plugin trust disabled and log level set to debug:
+- Start `snapteld` with plugin trust disabled and log level set to debug:
   ```bash
-  snapd -t 0 -l 1
+  snapteld --log-level 1 --log-path '' --plugin-trust 0 
   ```
 
 ]
 
 - More resources:
 
-  https://github.com/intelsdi-x/snap/blob/master/docs/SNAPD.md
-  https://github.com/intelsdi-x/snap/blob/master/docs/SNAPD_CONFIGURATION.md
+  https://github.com/intelsdi-x/snap/tree/master/docs/SNAPTEL.md
+  https://github.com/intelsdi-x/snap/tree/master/docs/SNAPDTEL_CONFIGURATION.md
 
 ---
 
-## Using `snapctl` to interact with `snapd`
+## Using `snaptel` to interact with `snapteld`
 
 - Let's load a *collector* and a *publisher* plugins
 
@@ -5106,14 +5107,18 @@ for BIN in snapd snapctl; do ln -s /opt/snap/bin/$BIN /usr/local/bin/$BIN; done
 
 - Load the psutil collector plugin:
   ```bash
-  snapctl plugin load /opt/snap/plugin/snap-plugin-collector-psutil
+  snaptel plugin load /opt/snap/plugin/snap-plugin-collector-psutil
   ```
 
 - Load the file publisher plugin:
   ```bash
-  snapctl plugin load /opt/snap/plugin/snap-plugin-publisher-mock-file
+  snaptel plugin load /opt/snap/plugin/snap-plugin-publisher-mock-file
   ```
 
+- Load the file process plugin:
+  ```bash
+  snaptel plugin load /opt/snap/plugin/snap-plugin-processor-statistics_linux_x86_64
+  ```
 ]
 
 ---
@@ -5126,12 +5131,12 @@ for BIN in snapd snapctl; do ln -s /opt/snap/bin/$BIN /usr/local/bin/$BIN; done
 
 - See your loaded plugins:
   ```bash
-  snapctl plugin list
+  snaptel plugin list
   ```
 
 - See the metrics you can collect:
   ```bash
-  snapctl metric list
+  snaptel metric list
   ```
 
 ]
@@ -5162,21 +5167,27 @@ for BIN in snapd snapctl; do ln -s /opt/snap/bin/$BIN /usr/local/bin/$BIN; done
 ## Our first task manifest
 
 ```yaml
+--- 
   version: 1
   schedule:
     type: "simple" # collect on a set interval
-    interval: "1s" # of every 1s
+      interval: "1s" # of every 1s
   max-failures: 10
   workflow:
     collect: # first collect
       metrics: # metrics to collect
         /intel/psutil/load/load1: {}
       config: # there is no configuration
-      publish: # after collecting, publish
-        -
-            plugin_name: "mock-file" # use the file publisher
-            config:
-                file: "/tmp/snap-psutil-file.log" # write to this file
+      tags: 
+      process:
+        - 
+          plugin_name:"statistics"
+          process: null
+          publish: # after collecting, publish
+                -
+                  plugin_name: "file" # use the file publisher
+                  config:
+                    file: "/tmp/snap-psutil-file.log" # write to this file
 ```
 
 ---
@@ -5191,7 +5202,7 @@ for BIN in snapd snapctl; do ln -s /opt/snap/bin/$BIN /usr/local/bin/$BIN; done
 
   ```bash
   cd ~/orchestration-workshop/snap
-  snapctl task create -t psutil-file.yml
+  snaptel task create -t psutil-file.yml
   ```
 
 ]
@@ -5214,7 +5225,7 @@ for BIN in snapd snapctl; do ln -s /opt/snap/bin/$BIN /usr/local/bin/$BIN; done
 - This will confirm that our task is running correctly, and remind us of its task ID
 
   ```bash
-  snapctl task list
+  snaptel task list
   ```
 
 ]
@@ -5247,14 +5258,14 @@ To exit, hit `^C`
 
 ## Debugging tasks
 
-- When a task is not directly writing to a local file, use `snapctl task watch`
+- When a task is not directly writing to a local file, use `snaptel task watch`
 
-- `snapctl task watch` will stream the metrics you are collecting to STDOUT
+- `snaptel task watch` will stream the metrics you are collecting to STDOUT
 
 .exercise[
 
 ```bash
-snapctl task watch <ID>
+snaptel task watch <ID>
 ```
 
 ]
@@ -5267,7 +5278,7 @@ To exit, hit `^C`
 
 - Our Snap deployment has a few flaws:
 
-  - snapd was started manually
+  - snapteld was started manually
 
   - it is running on a single node
 
@@ -5279,7 +5290,7 @@ To exit, hit `^C`
 
 --
 
-- But first, go back to the terminal where `snapd` is running, and hit `^C`
+- But first, go back to the terminal where `snapteld` is running, and hit `^C`
 
 - All tasks will be stopped; all plugins will be unloaded; Snap will exit
 
@@ -5300,7 +5311,7 @@ To exit, hit `^C`
 - Without tribe mode, we would have to load plugins and run tasks manually on every node
 
 - More resources:
-  https://github.com/intelsdi-x/snap/blob/master/docs/TRIBE.md
+  https://github.com/intelsdi-x/snap/tree/master/docs/TRIBE.md
 
 ---
 
@@ -5312,7 +5323,7 @@ To exit, hit `^C`
 
 - Run the following command *on every node:*
   ```bash
-  snapd -t 0 -l 1 --tribe --tribe-seed node1:6000
+  snapteld -t 0 -l 1 --tribe --tribe-seed node1:6000
   ```
 
 ]
@@ -5332,7 +5343,7 @@ If you're *not* using Play-With-Docker, there is another way to start Snap!
 - With that SSH client, the service will connect back to its local node
   <br/>(i.e. "break out" of the container, using the SSH key that we provide)
 
-- Once logged on the node, the service starts snapd with Tribe Mode enabled
+- Once logged on the node, the service starts snapteld with Tribe Mode enabled
 
 ---
 
@@ -5344,12 +5355,12 @@ If you're *not* using Play-With-Docker, there is another way to start Snap!
 
 - Start Snap all over the place:
   ```bash
-    docker service create --name snapd --mode global \
+    docker service create --name snapteld --mode global \
            --mount type=bind,source=$HOME/.ssh/id_rsa,target=/sshkey \
            alpine sh -c "
                   apk add --no-cache openssh-client &&
                   ssh -o StrictHostKeyChecking=no -i /sshkey docker@172.17.0.1 \
-                      sudo snapd -t 0 -l 1 --tribe --tribe-seed node1:6000
+                      sudo snapteld -t 0 -l 1 --tribe --tribe-seed node1:6000
            " # If you copy-paste that block, don't forget that final quote :-)
    ```
 
@@ -5367,7 +5378,7 @@ Remember: this *does not work* with Play-With-Docker (which doesn't have SSH).
 
 - View the members of our tribe:
   ```bash
-  snapctl member list
+  snaptel member list
   ```
 
 ]
@@ -5384,7 +5395,7 @@ This should show the 5 nodes with their hostnames.
 
 - Create an agreement; make sure to use the same name all along:
   ```bash
-  snapctl agreement create docker-influxdb
+  snaptel agreement create docker-influxdb
   ```
 
 ]
@@ -5408,8 +5419,8 @@ The output should look like the following:
 
 - Add all nodes to the agreement:
   ```bash
-    snapctl member list | tail -n +2 |
-      xargs -n1 snapctl agreement join docker-influxdb
+    snaptel member list | tail -n +2 |
+      xargs -n1 snaptel agreement join docker-influxdb
   ```
 
 ]
@@ -5537,13 +5548,13 @@ Note: the InfluxDB query language *looks like* SQL but it's not.
 - Load Docker collector:
 
   ```bash
-  snapctl plugin load /opt/snap/plugin/snap-plugin-collector-docker
+  snaptel plugin load /opt/snap/plugin/snap-plugin-collector-docker
   ```
 
 - Load InfluxDB publisher:
 
   ```bash
-  snapctl plugin load /opt/snap/plugin/snap-plugin-publisher-influxdb
+  snaptel plugin load /opt/snap/plugin/snap-plugin-publisher-influxdb
   ```
 
 ]
@@ -5561,7 +5572,7 @@ Note: the InfluxDB query language *looks like* SQL but it's not.
 - Load a task manifest file collecting a couple of metrics on all containers,
   <br/>and sending them to InfluxDB:
   ```bash
-  snapctl task create -t docker-influxdb.json
+  snaptel task create -t docker-influxdb.json
   ```
 
 ]
@@ -5582,8 +5593,8 @@ will be stopped.
 You will have to restart it manually by running:
 
 ```bash
-snapctl task enable <ID>
-snapctl task start <ID>
+snaptel task enable <ID>
+snaptel task start <ID>
 ```
 
 This must be done *per node*. Alternatively, you can delete+re-create
